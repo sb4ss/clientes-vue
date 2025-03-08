@@ -9,7 +9,7 @@ defineProps({
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+          <th class="id">ID</th>
           <th>Nombre</th>
           <th>Email</th>
           <th>Teléfono</th>
@@ -34,7 +34,9 @@ defineProps({
   </div>
 </template>
 <style scoped>
-/* Contenedor para centrar la tabla */
+.id {
+  min-width: 50px;
+}
 .table-container {
   display: flex;
   justify-content: center;
@@ -43,7 +45,8 @@ defineProps({
 
 /* Estilos generales de la tabla */
 table {
-  width: 900px;
+  min-width: 900px;
+  max-width: 900px;
   border-collapse: collapse;
   background: #292929;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);

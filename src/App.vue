@@ -91,11 +91,25 @@ const filteredUsers = computed(() => {
       type="text"
       placeholder="Buscar por ID de usuario"
     />
-    <button class="addUser"></button>
+    <button class="addUser">Nuevo</button>
     <Table :users="filteredUsers" />
   </div>
 </template>
 <style scoped>
+.addUser {
+  right: 60px;
+  position: absolute;
+  background-color: transparent;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid rgba(71, 71, 71, 0.397);
+  cursor: pointer;
+}
+
+.addUser:hover {
+  background-color: rgba(71, 71, 71, 0.397);
+}
 .user-table {
   position: relative;
   border-radius: 10px;
@@ -106,13 +120,14 @@ const filteredUsers = computed(() => {
   background-color: rgb(19, 19, 19);
   padding: 2rem;
   min-height: 30px;
+  min-width: 1000px;
 }
 input {
   outline: none;
   height: 40px;
   color: white;
   background-color: rgba(61, 61, 61, 0.137);
-  width: 800px;
+  width: 700px;
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 8px;
