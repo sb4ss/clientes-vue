@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup>
+import Table from "./components/Table.vue";
+</script>
 
 <template>
-  <h2>HELLO WORD</h2>
+  <Table msg="Hello Vue 3 + Vite" />
 </template>
 
 <style scoped>
