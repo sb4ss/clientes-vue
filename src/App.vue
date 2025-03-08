@@ -91,16 +91,13 @@ const filteredUsers = computed(() => {
       type="text"
       placeholder="Buscar por ID de usuario"
     />
-    <button class="addUser">
-      <i class="fa-solid fa-user-plus"></i>
-    </button>
+    <button class="addUser"></button>
     <Table :users="filteredUsers" />
   </div>
 </template>
 <style scoped>
 .user-table {
   position: relative;
-  box-shadow: 0px 0px 30px rgba(20, 165, 209, 0.1);
   border-radius: 10px;
   display: flex;
   align-items: center;

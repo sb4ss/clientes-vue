@@ -45,11 +45,11 @@ defineProps({
 table {
   width: 900px;
   border-collapse: collapse;
-  background: #fff;
+  background: #292929;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
-  color: black;
+  color: rgb(219, 219, 219);
 }
 
 /* Estilos de las celdas */
@@ -57,19 +57,20 @@ th,
 td {
   padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px solid #e0e0e00a;
 }
 
 /* Estilos para los encabezados */
 th {
-  background: #007bff;
+  background: #222222;
   color: white;
   text-transform: uppercase;
 }
 
 /* Estilos para las filas */
 tbody tr:hover {
-  background: #f5f5f5;
+  transition: 0.5s;
+  background: #1b1b1b;
 }
 
 /* Botones */
