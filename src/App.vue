@@ -91,13 +91,15 @@ const filteredUsers = computed(() => {
       type="text"
       placeholder="Buscar por ID de usuario"
     />
-
-    <!-- Pasamos los usuarios filtrados al componente Table -->
+    <button class="addUser">
+      <i class="fa-solid fa-user-plus"></i>
+    </button>
     <Table :users="filteredUsers" />
   </div>
 </template>
 <style scoped>
 .user-table {
+  position: relative;
   box-shadow: 0px 0px 30px rgba(20, 165, 209, 0.1);
   border-radius: 10px;
   display: flex;
@@ -106,7 +108,7 @@ const filteredUsers = computed(() => {
   flex-direction: column;
   background-color: rgb(19, 19, 19);
   padding: 2rem;
-  min-height: 400px;
+  min-height: 30px;
 }
 input {
   outline: none;
