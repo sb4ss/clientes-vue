@@ -87,13 +87,18 @@ button {
 
 /* Estilos para los botones de edición y eliminación */
 button.edit {
-  background: #ffc107;
+  background: #ffda6a;
   color: #fff;
 }
 
 button.delete {
-  background: #dc3545;
+  background: #5e5e5e;
   color: #fff;
+}
+
+button.delete:hover {
+  transition: 0.2s;
+  background: #ff6b6b;
 }
 
 button:hover {
