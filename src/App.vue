@@ -24,56 +24,6 @@ const usersList = [
     userPhone: "+57 301 234 5678",
     createAT: "2025-03-08",
   },
-  {
-    userID: "345",
-    userName: "Ana López",
-    userEmail: "ana@example.com",
-    userPhone: "+57 301 234 5678",
-    createAT: "2025-03-08",
-  },
-  {
-    userID: "345",
-    userName: "Ana López",
-    userEmail: "ana@example.com",
-    userPhone: "+57 301 234 5678",
-    createAT: "2025-03-08",
-  },
-  {
-    userID: "345",
-    userName: "Ana López",
-    userEmail: "ana@example.com",
-    userPhone: "+57 301 234 5678",
-    createAT: "2025-03-08",
-  },
-
-  {
-    userID: "345",
-    userName: "Ana López",
-    userEmail: "ana@example.com",
-    userPhone: "+57 301 234 5678",
-    createAT: "2025-03-08",
-  },
-  {
-    userID: "345",
-    userName: "Ana López",
-    userEmail: "ana@example.com",
-    userPhone: "+57 301 234 5678",
-    createAT: "2025-03-08",
-  },
-  {
-    userID: "345",
-    userName: "Ana López",
-    userEmail: "ana@example.com",
-    userPhone: "+57 301 234 5678",
-    createAT: "2025-03-08",
-  },
-  {
-    userID: "345",
-    userName: "Ana López",
-    userEmail: "ana@example.com",
-    userPhone: "+57 301 234 5678",
-    createAT: "2025-03-08",
-  },
 ];
 
 const userIDInput = ref("");
