@@ -1,34 +1,98 @@
 <script setup>
 defineProps({
-  msg: String,
+  users: Array,
 });
 </script>
+
 <template>
-  <table>
-    <thead>
-      <tr>
-        <th>{{ msg }}</th>
-        <th>Header 2</th>
-        <th>Header 3</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Row 1, Col 1</td>
-        <td>Row 1, Col 2</td>
-        <td>Row 1, Col 3</td>
-      </tr>
-      <tr>
-        <td>Row 2, Col 1</td>
-        <td>Row 2, Col 2</td>
-        <td>Row 2, Col 3</td>
-      </tr>
-      <tr>
-        <td>Row 3, Col 1</td>
-        <td>Row 3, Col 2</td>
-        <td>Row 3, Col 3</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Fecha de creación</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users" :key="user.userID">
+          <td>{{ user.userID }}</td>
+          <td>{{ user.userName }}</td>
+          <td>{{ user.userEmail }}</td>
+          <td>{{ user.userPhone }}</td>
+          <td>{{ user.createAT }}</td>
+          <td>
+            <button class="edit">✏️</button>
+            <button class="delete">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
-<style scoped></style>
+<style scoped>
+/* Contenedor para centrar la tabla */
+.table-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Estilos generales de la tabla */
+table {
+  width: 900px;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  color: black;
+}
+
+/* Estilos de las celdas */
+th,
+td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Estilos para los encabezados */
+th {
+  background: #007bff;
+  color: white;
+  text-transform: uppercase;
+}
+
+/* Estilos para las filas */
+tbody tr:hover {
+  background: #f5f5f5;
+}
+
+/* Botones */
+button {
+  border: none;
+  padding: 6px 10px;
+  margin: 2px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Estilos para los botones de edición y eliminación */
+button.edit {
+  background: #ffc107;
+  color: #fff;
+}
+
+button.delete {
+  background: #dc3545;
+  color: #fff;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+</style>

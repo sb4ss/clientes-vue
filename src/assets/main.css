@@ -10,7 +10,6 @@
   font-weight: normal;
 }
 
-/* Enlaces */
 a,
 .green {
   text-decoration: none;
@@ -25,20 +24,19 @@ a,
   }
 }
 
-/* Corrige el centrado en pantallas grandes */
 @media (min-width: 1024px) {
   body,
   html {
-    height: 100vh; /* Asegura que el body ocupe toda la pantalla */
+    height: 100vh;
     margin: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
   }
 
   #app {
-    display: flex; /* Usamos flex para mejor control */
-    flex-direction: column; /* Asegura que el contenido esté en columna */
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 2rem;

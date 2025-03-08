@@ -1,12 +1,125 @@
 <script setup>
+import { ref, computed } from "vue";
 import Table from "./components/Table.vue";
+
+const usersList = [
+  {
+    userID: "1",
+    userName: "Juan Pérez",
+    userEmail: "juan@example.com",
+    userPhone: "+57 300 123 4567",
+    createAT: "2025-03-08",
+  },
+  {
+    userID: "345",
+    userName: "Ana López",
+    userEmail: "ana@example.com",
+    userPhone: "+57 301 234 5678",
+    createAT: "2025-03-08",
+  },
+  {
+    userID: "345",
+    userName: "Ana López",
+    userEmail: "ana@example.com",
+    userPhone: "+57 301 234 5678",
+    createAT: "2025-03-08",
+  },
+  {
+    userID: "345",
+    userName: "Ana López",
+    userEmail: "ana@example.com",
+    userPhone: "+57 301 234 5678",
+    createAT: "2025-03-08",
+  },
+  {
+    userID: "345",
+    userName: "Ana López",
+    userEmail: "ana@example.com",
+    userPhone: "+57 301 234 5678",
+    createAT: "2025-03-08",
+  },
+  {
+    userID: "345",
+    userName: "Ana López",
+    userEmail: "ana@example.com",
+    userPhone: "+57 301 234 5678",
+    createAT: "2025-03-08",
+  },
+
+  {
+    userID: "345",
+    userName: "Ana López",
+    userEmail: "ana@example.com",
+    userPhone: "+57 301 234 5678",
+    createAT: "2025-03-08",
+  },
+  {
+    userID: "345",
+    userName: "Ana López",
+    userEmail: "ana@example.com",
+    userPhone: "+57 301 234 5678",
+    createAT: "2025-03-08",
+  },
+  {
+    userID: "345",
+    userName: "Ana López",
+    userEmail: "ana@example.com",
+    userPhone: "+57 301 234 5678",
+    createAT: "2025-03-08",
+  },
+  {
+    userID: "345",
+    userName: "Ana López",
+    userEmail: "ana@example.com",
+    userPhone: "+57 301 234 5678",
+    createAT: "2025-03-08",
+  },
+];
+
+const userIDInput = ref("");
+
+const filteredUsers = computed(() => {
+  if (!userIDInput.value) return usersList;
+  return usersList.filter((user) => user.userID === userIDInput.value);
+});
 </script>
 
 <template>
-  <Table msg="Hello Vue 3 + Vite" />
-</template>
+  <div class="user-table">
+    <input
+      v-model="userIDInput"
+      type="text"
+      placeholder="Buscar por ID de usuario"
+    />
 
+    <!-- Pasamos los usuarios filtrados al componente Table -->
+    <Table :users="filteredUsers" />
+  </div>
+</template>
 <style scoped>
+.user-table {
+  box-shadow: 0px 0px 30px rgba(20, 165, 209, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  background-color: rgb(19, 19, 19);
+  padding: 2rem;
+  min-height: 400px;
+}
+input {
+  outline: none;
+  height: 40px;
+  color: white;
+  background-color: rgba(61, 61, 61, 0.137);
+  width: 800px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #2b2b2b13;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
