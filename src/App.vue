@@ -25,7 +25,7 @@ const showModal = ref(false);
 
 const filteredUsers = computed(() => {
   if (!userIDInput.value) return usersList.value;
-  return usersList.value.filter((user) => user.userID === userIDInput.value);
+  return usersList.value.filter((user) => user.id === userIDInput.value);
 });
 
 const addUser = (newUser) => {
@@ -38,13 +38,6 @@ const toggleModal = () => {
 };
 
 const refreshKey = ref(true);
-
-const refreshTable = () => {
-  refreshKey.value = false;
-  setTimeout(() => {
-    refreshKey.value = true;
-  }, 100);
-};
 </script>
 
 <template>
@@ -55,7 +48,7 @@ const refreshTable = () => {
       placeholder="Buscar por ID de usuario"
     />
     <button class="addUser" @click="toggleModal">Nuevo</button>
-    <Table :users="filteredUsers" v-if="refreshKey" />
+    <Table :users="filteredUsers" />
   </div>
   <NewUserModal
     v-if="showModal"

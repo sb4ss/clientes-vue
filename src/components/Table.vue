@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineEmits } from "vue";
 import EditUser from "./EditUser.vue";
 
 defineProps({
@@ -11,6 +11,7 @@ const users = ref([]); // Lista de usuarios
 const EditUserModal = ref(false);
 const selectedUser = ref(null);
 const refreshKey = ref(true);
+const emit = defineEmits();
 
 // Función para editar un usuario
 const editUser = (user) => {
@@ -41,6 +42,7 @@ const getUsers = async () => {
     const data = await response.json();
     console.log(data);
     users.value = data;
+    emit("update-users", data);
   } catch (error) {
     console.error("Error al obtener los usuarios:", error);
   }
