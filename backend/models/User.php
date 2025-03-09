@@ -5,9 +5,9 @@ class User {
     private $conn;
     private $table = "users";
 
-    public function __construct() {
+    public function __construct() { // Constructor para conectar a la base de datos
         $database = new Database();
-        $this->conn = $database->connect();
+        $this->conn = $database->connect(); // Conexion PDO a la base de datos
     }
 
     // GET usuarios
