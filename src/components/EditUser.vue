@@ -31,15 +31,15 @@
 import { defineProps, defineEmits, ref } from "vue";
 
 const props = defineProps({
-  user: Object, // Recibe el usuario a editar
+  user: Object,
 });
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "update-user"]);
 
 const userData = ref({ ...props.user });
 
 const updateUser = async () => {
   try {
-    const response = await fetch("https://api.example.com/update-user", {
+    const response = await fetch("http://localhost/3000", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,10 +51,11 @@ const updateUser = async () => {
       throw new Error(`Error HTTP: ${response.status}`);
     }
 
-    alert("Usuario actualizado correctamente");
     emit("close");
+    emit("update-user");
   } catch (error) {
-    console.error("Error al actualizar usuario", error);
+    emit("close");
+    emit("update-user");
   }
 };
 
@@ -136,7 +137,7 @@ form button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.39);
+  background-color: rgba(0, 0, 0, 0);
   transition: 0.5s;
   z-index: 1;
   border-radius: 10px;

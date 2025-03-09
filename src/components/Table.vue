@@ -7,7 +7,6 @@ defineProps({
 
 const EditUserModal = ref(false);
 const selectedUser = ref(null);
-
 const editUser = (user) => {
   selectedUser.value = { ...user };
   EditUserModal.value = true;
@@ -17,11 +16,20 @@ const closeEditModal = () => {
   EditUserModal.value = false;
   selectedUser.value = null;
 };
+
+const refreshKey = ref(true);
+
+const handleUserUpdate = () => {
+  refreshKey.value = false;
+  setTimeout(() => {
+    refreshKey.value = true;
+  }, 100);
+};
 </script>
 
 <template>
   <div class="table-container">
-    <table>
+    <table v-if="refreshKey">
       <thead>
         <tr>
           <th class="id">ID</th>
@@ -48,7 +56,12 @@ const closeEditModal = () => {
     </table>
   </div>
 
-  <EditUser v-if="EditUserModal" :user="selectedUser" @close="closeEditModal" />
+  <EditUser
+    v-if="EditUserModal"
+    :user="selectedUser"
+    @close="closeEditModal"
+    @update-user="handleUserUpdate"
+  />
 </template>
 
 <style scoped>
