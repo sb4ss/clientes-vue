@@ -1,14 +1,22 @@
 <script setup>
-import NewUserModal from "./NewUserModal.vue";
-
+import { ref } from "vue";
+import EditUser from "./EditUser.vue";
 defineProps({
   users: Array,
-  methods: {
-    NewUserModal() {
-      this.UserModal = !this.UserModal;
-    },
-  },
 });
+
+const EditUserModal = ref(false);
+const selectedUser = ref(null);
+
+const editUser = (user) => {
+  selectedUser.value = { ...user };
+  EditUserModal.value = true;
+};
+
+const closeEditModal = () => {
+  EditUserModal.value = false;
+  selectedUser.value = null;
+};
 </script>
 
 <template>
@@ -32,14 +40,17 @@ defineProps({
           <td>{{ user.userPhone }}</td>
           <td>{{ user.createAT }}</td>
           <td>
-            <button class="edit" @click="NewUserModal()">✏️</button>
+            <button class="edit" @click="editUser(user)">✏️</button>
             <button class="delete">🗑️</button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <EditUser v-if="EditUserModal" :user="selectedUser" @close="closeEditModal" />
 </template>
+
 <style scoped>
 .id {
   min-width: 50px;

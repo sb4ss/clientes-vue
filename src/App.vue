@@ -21,21 +21,18 @@ const usersList = ref([
 ]);
 
 const userIDInput = ref("");
-const showModal = ref(false); // Estado del modal
+const showModal = ref(false);
 
-// Filtrado de usuarios por ID
 const filteredUsers = computed(() => {
   if (!userIDInput.value) return usersList.value;
   return usersList.value.filter((user) => user.userID === userIDInput.value);
 });
 
-// Función para agregar un usuario
 const addUser = (newUser) => {
   usersList.value.push(newUser);
-  showModal.value = false; // Cierra el modal después de agregar
+  showModal.value = false;
 };
 
-// Función para abrir/cerrar el modal
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
