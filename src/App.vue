@@ -36,6 +36,15 @@ const addUser = (newUser) => {
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
+
+const refreshKey = ref(true);
+
+const refreshTable = () => {
+  refreshKey.value = false;
+  setTimeout(() => {
+    refreshKey.value = true;
+  }, 100);
+};
 </script>
 
 <template>
@@ -46,9 +55,14 @@ const toggleModal = () => {
       placeholder="Buscar por ID de usuario"
     />
     <button class="addUser" @click="toggleModal">Nuevo</button>
-    <Table :users="filteredUsers" />
+    <Table :users="filteredUsers" v-if="refreshKey" />
   </div>
-  <NewUserModal v-if="showModal" @close="toggleModal" @add-user="addUser" />
+  <NewUserModal
+    v-if="showModal"
+    @close="toggleModal"
+    @add-user="addUser"
+    @refresh="refreshTable"
+  />
 </template>
 
 <style scoped>

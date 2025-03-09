@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineEmits } from "vue";
 
-const emit = defineEmits(["close", "add-user"]);
+const emit = defineEmits(["close", "add-user", "refresh"]);
 
 const userName = ref("");
 const userEmail = ref("");
@@ -22,6 +22,7 @@ const addUser = () => {
     createAT: new Date().toISOString().split("T")[0],
   };
 
+  emit("refresh");
   emit("add-user", newUser);
 };
 
