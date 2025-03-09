@@ -1,11 +1,14 @@
 <?php
-require_once "../controllers/UserController.php";
+require_once __DIR__ . '/../controllers/UserController.php';
 
 $user = new UserController();
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-switch ($path) {
+
+$basePath = '/backend/API/api.php'; 
+
+switch (substr($path, strlen($basePath))) {
     case '/users': // GET usuarios
         if ($requestMethod === 'GET') {
             echo json_encode($user->getUsers());
@@ -21,14 +24,14 @@ switch ($path) {
     case '/user/create': // POST usuario
         if ($requestMethod === 'POST') {
             $data = json_decode(file_get_contents("php://input"), true);
-            echo json_encode($user->createUser($data));
+            echo json_encode($user->createUser($data['name'], $data['email'], $data['phone']));
         }
         break;
 
     case '/user/update': // UPDATE usuario
         if ($requestMethod === 'PUT') {
             $data = json_decode(file_get_contents("php://input"), true);
-            echo json_encode($user->updateUser($data));
+            echo json_encode($user->updateUser($data['id'], $data['name'], $data['email'], $data['phone']));
         }
         break;
 
@@ -44,4 +47,3 @@ switch ($path) {
         echo json_encode(["message" => "Ruta no encontrada"]);
         break;
 }
-?>
