@@ -4,21 +4,11 @@
       <h2>Editar usuario</h2>
       <form @submit.prevent="updateUser">
         <label for="userName">Nombre:</label>
-        <input type="text" id="userName" v-model="userData.userName" required />
+        <input type="text" id="userName" v-model="userData.name" required />
         <label for="userEmail">Email:</label>
-        <input
-          type="email"
-          id="userEmail"
-          v-model="userData.userEmail"
-          required
-        />
+        <input type="email" id="userEmail" v-model="userData.email" required />
         <label for="userPhone">Teléfono:</label>
-        <input
-          type="tel"
-          id="userPhone"
-          v-model="userData.userPhone"
-          required
-        />
+        <input type="tel" id="userPhone" v-model="userData.phone" required />
         <button type="submit">Guardar cambios</button>
         <button @click="closeModal" class="cancelar">Cancelar</button>
       </form>
@@ -39,13 +29,16 @@ const userData = ref({ ...props.user });
 
 const updateUser = async () => {
   try {
-    const response = await fetch("http://localhost/3000", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData.value),
-    });
+    const response = await fetch(
+      "http://localhost/backend/API/api.php/user/update",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData.value),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Error HTTP: ${response.status}`);

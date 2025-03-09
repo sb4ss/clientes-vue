@@ -1,30 +1,54 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import EditUser from "./EditUser.vue";
+
 defineProps({
   users: Array,
 });
 
+// Referencias reactivas
+const users = ref([]); // Lista de usuarios
 const EditUserModal = ref(false);
 const selectedUser = ref(null);
+const refreshKey = ref(true);
+
+// Función para editar un usuario
 const editUser = (user) => {
   selectedUser.value = { ...user };
   EditUserModal.value = true;
 };
 
+// Función para cerrar el modal de edición
 const closeEditModal = () => {
   EditUserModal.value = false;
   selectedUser.value = null;
 };
 
-const refreshKey = ref(true);
-
+// Función que maneja la actualización del usuario
 const handleUserUpdate = () => {
-  refreshKey.value = false;
-  setTimeout(() => {
-    refreshKey.value = true;
-  }, 100);
+  window.location.reload();
 };
+
+// Función para obtener los usuarios del backend
+const getUsers = async () => {
+  try {
+    const response = await fetch("http://localhost/backend/API/api.php/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    users.value = data;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+  }
+};
+
+onMounted(() => {
+  getUsers();
+});
 </script>
 
 <template>
@@ -41,12 +65,12 @@ const handleUserUpdate = () => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.userID">
-          <td>{{ user.userID }}</td>
-          <td>{{ user.userName }}</td>
-          <td>{{ user.userEmail }}</td>
-          <td>{{ user.userPhone }}</td>
-          <td>{{ user.createAT }}</td>
+        <tr v-for="user in users" :key="user.id">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.created_at }}</td>
           <td>
             <button class="edit" @click="editUser(user)">✏️</button>
             <button class="delete">🗑️</button>
@@ -56,6 +80,7 @@ const handleUserUpdate = () => {
     </table>
   </div>
 
+  <!-- Modal de edición de usuario -->
   <EditUser
     v-if="EditUserModal"
     :user="selectedUser"
