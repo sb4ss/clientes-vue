@@ -1,6 +1,13 @@
 <script setup>
+import NewUserModal from "./NewUserModal.vue";
+
 defineProps({
   users: Array,
+  methods: {
+    NewUserModal() {
+      this.UserModal = !this.UserModal;
+    },
+  },
 });
 </script>
 
@@ -25,7 +32,7 @@ defineProps({
           <td>{{ user.userPhone }}</td>
           <td>{{ user.createAT }}</td>
           <td>
-            <button class="edit">✏️</button>
+            <button class="edit" @click="NewUserModal()">✏️</button>
             <button class="delete">🗑️</button>
           </td>
         </tr>
@@ -43,7 +50,6 @@ defineProps({
   padding: 20px;
 }
 
-/* Estilos generales de la tabla */
 table {
   min-width: 900px;
   max-width: 900px;
@@ -55,7 +61,6 @@ table {
   color: rgb(219, 219, 219);
 }
 
-/* Estilos de las celdas */
 th,
 td {
   padding: 12px 16px;
@@ -63,20 +68,17 @@ td {
   border-bottom: 2px solid #e0e0e00a;
 }
 
-/* Estilos para los encabezados */
 th {
   background: #222222;
   color: white;
   text-transform: uppercase;
 }
 
-/* Estilos para las filas */
 tbody tr:hover {
   transition: 0.5s;
   background: #1b1b1b;
 }
 
-/* Botones */
 button {
   border: none;
   padding: 6px 10px;
@@ -85,7 +87,6 @@ button {
   cursor: pointer;
 }
 
-/* Estilos para los botones de edición y eliminación */
 button.edit {
   background: #ffda6a;
   color: #fff;

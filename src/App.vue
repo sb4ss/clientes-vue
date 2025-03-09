@@ -1,8 +1,9 @@
 <script setup>
 import { ref, computed } from "vue";
 import Table from "./components/Table.vue";
+import NewUserModal from "./components/NewUserModal.vue";
 
-const usersList = [
+const usersList = ref([
   {
     userID: "1",
     userName: "Juan Pérez",
@@ -11,27 +12,33 @@ const usersList = [
     createAT: "2025-03-08",
   },
   {
-    userID: "345",
+    userID: "2",
     userName: "Ana López",
     userEmail: "ana@example.com",
     userPhone: "+57 301 234 5678",
     createAT: "2025-03-08",
   },
-  {
-    userID: "345",
-    userName: "Ana López",
-    userEmail: "ana@example.com",
-    userPhone: "+57 301 234 5678",
-    createAT: "2025-03-08",
-  },
-];
+]);
 
 const userIDInput = ref("");
+const showModal = ref(false); // Estado del modal
 
+// Filtrado de usuarios por ID
 const filteredUsers = computed(() => {
-  if (!userIDInput.value) return usersList;
-  return usersList.filter((user) => user.userID === userIDInput.value);
+  if (!userIDInput.value) return usersList.value;
+  return usersList.value.filter((user) => user.userID === userIDInput.value);
 });
+
+// Función para agregar un usuario
+const addUser = (newUser) => {
+  usersList.value.push(newUser);
+  showModal.value = false; // Cierra el modal después de agregar
+};
+
+// Función para abrir/cerrar el modal
+const toggleModal = () => {
+  showModal.value = !showModal.value;
+};
 </script>
 
 <template>
@@ -41,10 +48,12 @@ const filteredUsers = computed(() => {
       type="text"
       placeholder="Buscar por ID de usuario"
     />
-    <button class="addUser">Nuevo</button>
+    <button class="addUser" @click="toggleModal">Nuevo</button>
     <Table :users="filteredUsers" />
   </div>
+  <NewUserModal v-if="showModal" @close="toggleModal" @add-user="addUser" />
 </template>
+
 <style scoped>
 .addUser {
   right: 60px;
@@ -82,67 +91,5 @@ input {
   margin-bottom: 20px;
   border-radius: 8px;
   border: 1px solid #2b2b2b13;
-}
-
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
 }
 </style>
