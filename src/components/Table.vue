@@ -18,6 +18,33 @@ const editUser = (user) => {
   EditUserModal.value = true;
 };
 
+// Función para eliminar un usuario
+const deleteUser = (user) => {
+  selectedUser.value = { ...user };
+  const id = selectedUser.value.id;
+  const userID = { id: id };
+  fetch(`http://localhost/backend/API/api.php/user/delete`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userID),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+};
+
 // Función para cerrar el modal de edición
 const closeEditModal = () => {
   EditUserModal.value = false;
@@ -28,8 +55,6 @@ const closeEditModal = () => {
 const handleUserUpdate = () => {
   window.location.reload();
 };
-
-// Función para obtener los usuarios del backend
 </script>
 
 <template>
@@ -54,7 +79,7 @@ const handleUserUpdate = () => {
           <td>{{ user.created_at }}</td>
           <td>
             <button class="edit" @click="editUser(user)">✏️</button>
-            <button class="delete">🗑️</button>
+            <button class="delete" @click="deleteUser(user)">🗑️</button>
           </td>
         </tr>
       </tbody>
