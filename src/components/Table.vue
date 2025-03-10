@@ -2,12 +2,11 @@
 import { ref, onMounted, defineEmits } from "vue";
 import EditUser from "./EditUser.vue";
 
-defineProps({
+const props = defineProps({
   users: Array,
+  require: true,
 });
 
-// Referencias reactivas
-const users = ref([]); // Lista de usuarios
 const EditUserModal = ref(false);
 const selectedUser = ref(null);
 const refreshKey = ref(true);
@@ -31,26 +30,6 @@ const handleUserUpdate = () => {
 };
 
 // Función para obtener los usuarios del backend
-const getUsers = async () => {
-  try {
-    const response = await fetch("http://localhost/backend/API/api.php/users", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    console.log(data);
-    users.value = data;
-    emit("update-users", data);
-  } catch (error) {
-    console.error("Error al obtener los usuarios:", error);
-  }
-};
-
-onMounted(() => {
-  getUsers();
-});
 </script>
 
 <template>
@@ -67,7 +46,7 @@ onMounted(() => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.id">
+        <tr v-for="user in props.users" :key="user.id">
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>

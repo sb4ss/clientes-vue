@@ -3,29 +3,30 @@ import { ref, computed } from "vue";
 import Table from "./components/Table.vue";
 import NewUserModal from "./components/NewUserModal.vue";
 
-const usersList = ref([
-  {
-    userID: "1",
-    userName: "Juan Pérez",
-    userEmail: "juan@example.com",
-    userPhone: "+57 300 123 4567",
-    createAT: "2025-03-08",
-  },
-  {
-    userID: "2",
-    userName: "Ana López",
-    userEmail: "ana@example.com",
-    userPhone: "+57 301 234 5678",
-    createAT: "2025-03-08",
-  },
-]);
+const usersList = ref();
+
+const getUsers = async () => {
+  try {
+    const response = await fetch("http://localhost/backend/API/api.php/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    usersList.value = data;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+  }
+};
 
 const userIDInput = ref("");
 const showModal = ref(false);
 
 const filteredUsers = computed(() => {
   if (!userIDInput.value) return usersList.value;
-  return usersList.value.filter((user) => user.id === userIDInput.value);
+  return usersList.value.filter((user) => user.id == userIDInput.value);
 });
 
 const addUser = (newUser) => {
@@ -36,8 +37,7 @@ const addUser = (newUser) => {
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
-
-const refreshKey = ref(true);
+getUsers();
 </script>
 
 <template>
@@ -50,12 +50,7 @@ const refreshKey = ref(true);
     <button class="addUser" @click="toggleModal">Nuevo</button>
     <Table :users="filteredUsers" />
   </div>
-  <NewUserModal
-    v-if="showModal"
-    @close="toggleModal"
-    @add-user="addUser"
-    @refresh="refreshTable"
-  />
+  <NewUserModal v-if="showModal" @close="toggleModal" @add-user="addUser" />
 </template>
 
 <style scoped>
