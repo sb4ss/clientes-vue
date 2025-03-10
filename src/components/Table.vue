@@ -1,13 +1,41 @@
 <script setup>
-import { ref, onMounted, defineEmits } from "vue";
+import { ref, onMounted, defineEmits, computed } from "vue";
 import EditUser from "./EditUserModal.vue";
 import NewUserModal from "./NewUserModal.vue";
 
-const props = defineProps({
-  users: Array,
-  require: true,
-});
+const props = defineProps({});
 const showModal = ref(false); // Controla la visibilidad del modal
+
+// Variables reactivas
+const usersList = ref(); // Almacena la lista de usuarios
+const userIDInput = ref(""); // Almacena el ID del usuario a buscar
+
+// GET para obtener los usuarios
+const getUsers = async () => {
+  try {
+    const response = await fetch("http://localhost/backend/API/api.php/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    usersList.value = data;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+  }
+};
+
+// Buscar usuarios por ID
+const filteredUsers = computed(() => {
+  if (!userIDInput.value) return usersList.value;
+  return usersList.value.filter((user) => user.id == userIDInput.value);
+});
+
+onMounted(() => {
+  getUsers();
+});
 
 // Controlar la visibilidad del modal
 const toggleModal = () => {
@@ -57,13 +85,18 @@ const closeEditModal = () => {
   selectedUser.value = null;
 };
 
-// Función que maneja la actualización del usuario
+// Función que maneja la actualizacion del componente
 const handleUserUpdate = () => {
   window.location.reload();
 };
 </script>
 
 <template>
+  <input
+    v-model="userIDInput"
+    type="text"
+    placeholder="Buscar por ID de usuario"
+  />
   <div class="table-container">
     <table v-if="refreshKey">
       <thead>
@@ -77,7 +110,7 @@ const handleUserUpdate = () => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in props.users" :key="user.id">
+        <tr v-for="user in filteredUsers" :key="user.id">
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
@@ -92,18 +125,31 @@ const handleUserUpdate = () => {
     </table>
   </div>
 
-  <!-- Modal de edición de usuario -->
+  // Modal para editar usuario
   <EditUser
     v-if="EditUserModal"
     :user="selectedUser"
     @close="closeEditModal"
     @update-user="handleUserUpdate"
   />
+
+  // Modal para agregar usuario
   <NewUserModal v-if="showModal" @close-modal="toggleModal" />
   <button class="addUser" @click="toggleModal">Nuevo</button>
 </template>
 
 <style scoped>
+input {
+  outline: none;
+  height: 40px;
+  color: white;
+  background-color: rgba(61, 61, 61, 0.137);
+  width: 700px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #2b2b2b13;
+}
 .addUser {
   right: 60px;
   position: absolute;
