@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineEmits } from "vue";
 
-const emit = defineEmits(["close", "add-user", "refresh"]);
+const emit = defineEmits(["close"]);
 
 const userName = ref("");
 const userEmail = ref("");

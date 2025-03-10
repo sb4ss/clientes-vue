@@ -1,10 +1,14 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Table from "./components/Table.vue";
 import NewUserModal from "./components/NewUserModal.vue";
 
-const usersList = ref();
+// Variables reactivas
+const usersList = ref(); // Almacena la lista de usuarios
+const userIDInput = ref(""); // Almacena el ID del usuario a buscar
+const showModal = ref(false); // Controla la visibilidad del modal
 
+// GET para obtener los usuarios
 const getUsers = async () => {
   try {
     const response = await fetch("http://localhost/backend/API/api.php/users", {
@@ -21,23 +25,20 @@ const getUsers = async () => {
   }
 };
 
-const userIDInput = ref("");
-const showModal = ref(false);
-
+// Buscar usuarios por ID
 const filteredUsers = computed(() => {
   if (!userIDInput.value) return usersList.value;
   return usersList.value.filter((user) => user.id == userIDInput.value);
 });
 
-const addUser = (newUser) => {
-  usersList.value.push(newUser);
-  showModal.value = false;
+// Controlar la visibilidad del modal
+const toggleModal = () => {
+  showModal.value = true;
 };
 
-const toggleModal = () => {
-  showModal.value = !showModal.value;
-};
-getUsers();
+onMounted(() => {
+  getUsers();
+});
 </script>
 
 <template>
@@ -50,7 +51,7 @@ getUsers();
     <button class="addUser" @click="toggleModal">Nuevo</button>
     <Table :users="filteredUsers" />
   </div>
-  <NewUserModal v-if="showModal" @close="toggleModal" @add-user="addUser" />
+  <NewUserModal v-if="showModal" @close="toggleModal" />
 </template>
 
 <style scoped>

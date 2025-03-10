@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, defineEmits } from "vue";
-import EditUser from "./EditUser.vue";
+import EditUser from "./EditUserModal.vue";
 
 const props = defineProps({
   users: Array,
