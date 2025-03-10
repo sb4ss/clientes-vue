@@ -13,6 +13,8 @@ const closeModal = () => {
 
 // copiar el objeto props.user a userData (trae todos los datos del usuario)
 const userData = ref({ ...props.user });
+
+// PUT para actualizar un usuario
 const updateUser = async () => {
   try {
     const response = await fetch(

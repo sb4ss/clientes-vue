@@ -14,7 +14,7 @@ const closeModal = () => {
   emit("close");
 };
 
-// Función para agregar usuario
+// POST para agregar usuario
 const addUser = () => {
   fetch("http://localhost/backend/API/api.php/user/create", {
     method: "POST",
