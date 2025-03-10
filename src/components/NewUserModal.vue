@@ -7,11 +7,11 @@ const userEmail = ref("");
 const userPhone = ref("");
 
 // Define la función para emitir eventos
-const emit = defineEmits(["close-modal"]);
+const emit = defineEmits(["close"]);
 
 // Función para cerrar el modal emitir el evento
 const closeModal = () => {
-  emit("close-modal");
+  emit("close");
 };
 
 // Función para refrescar la página

@@ -1,3 +1,46 @@
+<script setup>
+import { defineProps, defineEmits, ref } from "vue";
+
+const props = defineProps({
+  user: Object,
+});
+
+// Define la función para emitir eventos
+const emit = defineEmits(["close", "refresh"]);
+
+// copiar el objeto props.user a userData (trae todos los datos del usuario)
+const userData = ref({ ...props.user });
+const updateUser = async () => {
+  try {
+    const response = await fetch(
+      "http://localhost/backend/API/api.php/user/update",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData.value),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
+
+    // Emitir eventos para cerrar el modal y actualizar la lista de usuarios
+    emit("close");
+    emit("refresh");
+  } catch (error) {
+    emit("close");
+    emit("refresh");
+  }
+};
+
+const closeModal = () => {
+  emit("close");
+};
+</script>
+
 <template>
   <div class="modal">
     <div class="modal-content">
@@ -16,46 +59,6 @@
   </div>
   <div class="background" @click="closeModal"></div>
 </template>
-
-<script setup>
-import { defineProps, defineEmits, ref } from "vue";
-
-const props = defineProps({
-  user: Object,
-});
-const emit = defineEmits(["close", "update-user"]);
-
-const userData = ref({ ...props.user });
-
-const updateUser = async () => {
-  try {
-    const response = await fetch(
-      "http://localhost/backend/API/api.php/user/update",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData.value),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Error HTTP: ${response.status}`);
-    }
-
-    emit("close");
-    emit("update-user");
-  } catch (error) {
-    emit("close");
-    emit("update-user");
-  }
-};
-
-const closeModal = () => {
-  emit("close");
-};
-</script>
 
 <style scoped>
 .modal {

@@ -3,56 +3,31 @@ import { ref, onMounted, defineEmits, computed } from "vue";
 import EditUser from "./EditUserModal.vue";
 import NewUserModal from "./NewUserModal.vue";
 
-const props = defineProps({});
-const showModal = ref(false); // Controla la visibilidad del modal
-
 // Variables reactivas
+const showNewUserModal = ref(false); // Controla la visibilidad del modal nuevo usuario
 const usersList = ref(); // Almacena la lista de usuarios
 const userIDInput = ref(""); // Almacena el ID del usuario a buscar
+const EditUserModal = ref(false); // Controla la visibilidad del modal de edición
+const selectedUser = ref(null); // Almacena el usuario seleccionado
 
-// GET para obtener los usuarios
-const getUsers = async () => {
-  try {
-    const response = await fetch("http://localhost/backend/API/api.php/users", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    console.log(data);
-    usersList.value = data;
-  } catch (error) {
-    console.error("Error al obtener los usuarios:", error);
-  }
+// Controlar la visibilidad del modal nuevo usuario
+const closeNewUserModal = () => {
+  showNewUserModal.value = !showNewUserModal.value;
 };
 
-// Buscar usuarios por ID
-const filteredUsers = computed(() => {
-  if (!userIDInput.value) return usersList.value;
-  return usersList.value.filter((user) => user.id == userIDInput.value);
-});
-
-onMounted(() => {
-  getUsers();
-});
-
-// Controlar la visibilidad del modal
-const toggleModal = () => {
-  showModal.value = !showModal.value;
+// Función para cerrar el modal de edición
+const closeEditModal = () => {
+  EditUserModal.value = !EditUserModal.value;
+  selectedUser.value = null;
 };
 
-const EditUserModal = ref(false);
-const selectedUser = ref(null);
-const refreshKey = ref(true);
-const emit = defineEmits("close-modal");
 // Función para editar un usuario
 const editUser = (user) => {
   selectedUser.value = { ...user };
   EditUserModal.value = true;
 };
 
-// Función para eliminar un usuario
+// DELETE para eliminar un usuario
 const deleteUser = (user) => {
   selectedUser.value = { ...user };
   const id = selectedUser.value.id;
@@ -70,25 +45,44 @@ const deleteUser = (user) => {
       }
       return response.json();
     })
-    .then((data) => {
-      console.log(data);
-      window.location.reload();
+    .then(() => {
+      refresh();
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 };
 
-// Función para cerrar el modal de edición
-const closeEditModal = () => {
-  EditUserModal.value = false;
-  selectedUser.value = null;
+// GET para obtener los usuarios
+const getUsers = async () => {
+  try {
+    const response = await fetch("http://localhost/backend/API/api.php/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    usersList.value = data;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+  }
 };
+// Buscar usuarios por ID
+const filteredUsers = computed(() => {
+  if (!userIDInput.value) return usersList.value;
+  return usersList.value.filter((user) => user.id == userIDInput.value);
+});
 
 // Función que maneja la actualizacion del componente
-const handleUserUpdate = () => {
+const refresh = () => {
   window.location.reload();
 };
+
+onMounted(() => {
+  getUsers();
+});
 </script>
 
 <template>
@@ -98,7 +92,7 @@ const handleUserUpdate = () => {
     placeholder="Buscar por ID de usuario"
   />
   <div class="table-container">
-    <table v-if="refreshKey">
+    <table>
       <thead>
         <tr>
           <th class="id">ID</th>
@@ -125,17 +119,17 @@ const handleUserUpdate = () => {
     </table>
   </div>
 
-  // Modal para editar usuario
+  <!-- Modal para editar usuario -->
   <EditUser
     v-if="EditUserModal"
     :user="selectedUser"
     @close="closeEditModal"
-    @update-user="handleUserUpdate"
+    @refresh="refresh"
   />
 
-  // Modal para agregar usuario
-  <NewUserModal v-if="showModal" @close-modal="toggleModal" />
-  <button class="addUser" @click="toggleModal">Nuevo</button>
+  <!-- Modal para agregar usuario -->
+  <NewUserModal v-if="showNewUserModal" @close="closeNewUserModal" />
+  <button class="addUser" @click="closeNewUserModal">Nuevo</button>
 </template>
 
 <style scoped>
