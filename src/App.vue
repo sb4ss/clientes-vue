@@ -1,5 +1,4 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
 import Table from "./components/Table.vue";
 </script>
 

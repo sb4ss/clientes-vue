@@ -1,16 +1,20 @@
 <script setup>
 import { ref, defineEmits } from "vue";
 
-const emit = defineEmits(["close-modal"]);
-
+// Variables reactivas
 const userName = ref("");
 const userEmail = ref("");
 const userPhone = ref("");
 
+// Define la función para emitir eventos
+const emit = defineEmits(["close-modal"]);
+
+// Función para cerrar el modal emitir el evento
 const closeModal = () => {
   emit("close-modal");
 };
 
+// Función para refrescar la página
 const refresh = () => {
   window.location.reload();
 };
@@ -40,6 +44,8 @@ const addUser = () => {
     .catch((error) => {
       console.error("Error:", error);
     });
+
+  // Terminada la petición, cerrar el modal y refrescar la página
   closeModal();
   refresh();
 };
