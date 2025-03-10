@@ -7,27 +7,41 @@ const userName = ref("");
 const userEmail = ref("");
 const userPhone = ref("");
 
-// Función para agregar usuario
-const addUser = () => {
-  if (!userName.value || !userEmail.value || !userPhone.value) {
-    alert("Por favor, completa todos los campos");
-    return;
-  }
-
-  const newUser = {
-    userID: Math.floor(Math.random() * 1000),
-    userName: userName.value,
-    userEmail: userEmail.value,
-    userPhone: userPhone.value,
-    createAT: new Date().toISOString().split("T")[0],
-  };
-
-  emit("refresh");
-  emit("add-user", newUser);
-};
-
 const closeModal = () => {
   emit("close");
+};
+
+const refresh = () => {
+  window.location.reload();
+};
+
+// Función para agregar usuario
+const addUser = () => {
+  fetch("http://localhost/backend/API/api.php/user/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: userName.value,
+      email: userEmail.value,
+      phone: userPhone.value,
+    }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+  closeModal();
+  refresh();
 };
 </script>
 
