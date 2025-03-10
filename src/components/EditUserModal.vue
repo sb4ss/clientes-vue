@@ -6,7 +6,10 @@ const props = defineProps({
 });
 
 // Define la función para emitir eventos
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close, update"]);
+const closeModal = () => {
+  emit("close");
+};
 
 // copiar el objeto props.user a userData (trae todos los datos del usuario)
 const userData = ref({ ...props.user });
@@ -28,14 +31,9 @@ const updateUser = async () => {
     }
 
     // Emitir eventos para cerrar el modal y actualizar la lista de usuarios
-    emit("close");
-  } catch (error) {
-    emit("close");
-  }
-};
-
-const closeModal = () => {
-  emit("close");
+    emit("update");
+    closeModal();
+  } catch (error) {}
 };
 </script>
 

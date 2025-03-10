@@ -22,7 +22,6 @@ const closeNewUserModal = () => {
 
 // Función para cerrar el modal de edición
 const closeEditModal = () => {
-  refresh();
   EditUserModal.value = !EditUserModal.value;
   selectedUser.value = null;
 };
@@ -122,10 +121,19 @@ onMounted(() => {
   </div>
 
   <!-- Modal para editar usuario -->
-  <EditUser v-if="EditUserModal" :user="selectedUser" @close="closeEditModal" />
+  <EditUser
+    v-if="EditUserModal"
+    :user="selectedUser"
+    @close="closeEditModal"
+    @update="refresh"
+  />
 
   <!-- Modal para agregar usuario -->
-  <NewUserModal v-if="showNewUserModal" @close="closeNewUserModal" />
+  <NewUserModal
+    v-if="showNewUserModal"
+    @close="closeNewUserModal"
+    @update="refresh"
+  />
   <button class="addUser" @click="closeNewUserModal">Nuevo</button>
 </template>
 

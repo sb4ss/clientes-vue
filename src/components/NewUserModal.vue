@@ -7,16 +7,11 @@ const userEmail = ref("");
 const userPhone = ref("");
 
 // Define la función para emitir eventos
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close, update"]);
 
 // Función para cerrar el modal emitir el evento
 const closeModal = () => {
   emit("close");
-};
-
-// Función para refrescar la página
-const refresh = () => {
-  window.location.reload();
 };
 
 // Función para agregar usuario
@@ -38,16 +33,13 @@ const addUser = () => {
       }
       return response.json();
     })
-    .then((data) => {
-      console.log(data);
-    })
     .catch((error) => {
       console.error("Error:", error);
     });
 
   // Terminada la petición, cerrar el modal y refrescar la página
+  emit("update");
   closeModal();
-  refresh();
 };
 </script>
 
