@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, defineEmits, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import EditUser from "./EditUserModal.vue";
 import NewUserModal from "./NewUserModal.vue";
 
@@ -10,6 +10,11 @@ const userIDInput = ref(""); // Almacena el ID del usuario a buscar
 const EditUserModal = ref(false); // Controla la visibilidad del modal de edición
 const selectedUser = ref(null); // Almacena el usuario seleccionado
 
+// Función que maneja la actualizacion del componente
+const refresh = () => {
+  window.location.reload();
+};
+
 // Controlar la visibilidad del modal nuevo usuario
 const closeNewUserModal = () => {
   showNewUserModal.value = !showNewUserModal.value;
@@ -17,6 +22,7 @@ const closeNewUserModal = () => {
 
 // Función para cerrar el modal de edición
 const closeEditModal = () => {
+  refresh();
   EditUserModal.value = !EditUserModal.value;
   selectedUser.value = null;
 };
@@ -69,16 +75,12 @@ const getUsers = async () => {
     console.error("Error al obtener los usuarios:", error);
   }
 };
+
 // Buscar usuarios por ID
 const filteredUsers = computed(() => {
   if (!userIDInput.value) return usersList.value;
   return usersList.value.filter((user) => user.id == userIDInput.value);
 });
-
-// Función que maneja la actualizacion del componente
-const refresh = () => {
-  window.location.reload();
-};
 
 onMounted(() => {
   getUsers();
@@ -120,12 +122,7 @@ onMounted(() => {
   </div>
 
   <!-- Modal para editar usuario -->
-  <EditUser
-    v-if="EditUserModal"
-    :user="selectedUser"
-    @close="closeEditModal"
-    @refresh="refresh"
-  />
+  <EditUser v-if="EditUserModal" :user="selectedUser" @close="closeEditModal" />
 
   <!-- Modal para agregar usuario -->
   <NewUserModal v-if="showNewUserModal" @close="closeNewUserModal" />
