@@ -1,14 +1,14 @@
 <script setup>
 import { ref, defineEmits } from "vue";
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close-modal"]);
 
 const userName = ref("");
 const userEmail = ref("");
 const userPhone = ref("");
 
 const closeModal = () => {
-  emit("close");
+  emit("close-modal");
 };
 
 const refresh = () => {

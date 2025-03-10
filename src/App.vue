@@ -1,12 +1,10 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import Table from "./components/Table.vue";
-import NewUserModal from "./components/NewUserModal.vue";
 
 // Variables reactivas
 const usersList = ref(); // Almacena la lista de usuarios
 const userIDInput = ref(""); // Almacena el ID del usuario a buscar
-const showModal = ref(false); // Controla la visibilidad del modal
 
 // GET para obtener los usuarios
 const getUsers = async () => {
@@ -31,11 +29,6 @@ const filteredUsers = computed(() => {
   return usersList.value.filter((user) => user.id == userIDInput.value);
 });
 
-// Controlar la visibilidad del modal
-const toggleModal = () => {
-  showModal.value = true;
-};
-
 onMounted(() => {
   getUsers();
 });
@@ -48,27 +41,11 @@ onMounted(() => {
       type="text"
       placeholder="Buscar por ID de usuario"
     />
-    <button class="addUser" @click="toggleModal">Nuevo</button>
-    <Table :users="filteredUsers" />
+    <Table :users="filteredUsers" :showmodal="showModal" />
   </div>
-  <NewUserModal v-if="showModal" @close="toggleModal" />
 </template>
 
 <style scoped>
-.addUser {
-  right: 60px;
-  position: absolute;
-  background-color: transparent;
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  border: 2px solid rgba(71, 71, 71, 0.397);
-  cursor: pointer;
-}
-
-.addUser:hover {
-  background-color: rgba(71, 71, 71, 0.397);
-}
 .user-table {
   position: relative;
   border-radius: 10px;

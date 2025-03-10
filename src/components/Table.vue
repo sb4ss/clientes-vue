@@ -1,17 +1,23 @@
 <script setup>
 import { ref, onMounted, defineEmits } from "vue";
 import EditUser from "./EditUserModal.vue";
+import NewUserModal from "./NewUserModal.vue";
 
 const props = defineProps({
   users: Array,
   require: true,
 });
+const showModal = ref(false); // Controla la visibilidad del modal
+
+// Controlar la visibilidad del modal
+const toggleModal = () => {
+  showModal.value = !showModal.value;
+};
 
 const EditUserModal = ref(false);
 const selectedUser = ref(null);
 const refreshKey = ref(true);
-const emit = defineEmits();
-
+const emit = defineEmits("close-modal");
 // Función para editar un usuario
 const editUser = (user) => {
   selectedUser.value = { ...user };
@@ -93,9 +99,25 @@ const handleUserUpdate = () => {
     @close="closeEditModal"
     @update-user="handleUserUpdate"
   />
+  <NewUserModal v-if="showModal" @close-modal="toggleModal" />
+  <button class="addUser" @click="toggleModal">Nuevo</button>
 </template>
 
 <style scoped>
+.addUser {
+  right: 60px;
+  position: absolute;
+  background-color: transparent;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid rgba(71, 71, 71, 0.397);
+  cursor: pointer;
+}
+
+.addUser:hover {
+  background-color: rgba(71, 71, 71, 0.397);
+}
 .id {
   min-width: 50px;
 }
